@@ -1,0 +1,5 @@
+Kami#7715 faced an issue.
+Error uuid: 6d31eb94-a9e1-49d3-a4b7-c8d905326896
+Hypixel Api Status:{"success":false,"cause":"Invalid API key"}
+User credential: ||285707976356921344, Kami#7715 ||
+Api Key: 24e2a71e-cc48-4650-8583-dde375464b91, UUID: 505cef88177d40d4aa95e430d1f4ef0b

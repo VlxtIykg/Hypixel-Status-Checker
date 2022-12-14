@@ -1,0 +1,5 @@
+Kami#7715 faced an issue.
+Error uuid: 55e7f083-4780-4db1-ad5e-3c25dc6b2ce6
+Hypixel Api Status:{"success":false,"cause":"Malformed UUID"}
+User credential: ||285707976356921344, Kami#7715 ||
+Api Key: 24e2a71e-cc48-4650-8583-dde375464b91, UUID: undefined
