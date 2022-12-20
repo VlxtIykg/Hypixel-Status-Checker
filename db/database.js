@@ -80,13 +80,14 @@ module.exports.inputUserData = function(data) {
 module.exports.allUserDataRes = function() {
 	return db.prepare(query.statement[0].userselectALL).all();
 }
+console.log(this.allUserDataRes());
 module.exports.usernameRes = function() {
 	return db.prepare(query.statement[0].userselectSpecifiedMcUsername).all();
 }
 module.exports.userDataRes = function(id, mcuuid) {
 	return db.prepare(query.statement[0].parameters[0].userselectinfo).get(id, mcuuid)
 }
-const user = this.userDataRes("970628691442941962", "7dc15a84-0d42-44eb-ba38-766eacdf0141")
+/* const user = this.userDataRes("970628691442941962", "7dc15a84-0d42-44eb-ba38-766eacdf0141")
 console.log(user);
 if(user === undefined || typeof user === null) {
 	console.log(
@@ -95,7 +96,7 @@ if(user === undefined || typeof user === null) {
 	this.inputUserData({
 		userid: "970628691442941962", user: "regnarr_#8717", mcname: "jesus", mcuuid: "7dc15a84-0d42-44eb-ba38-766eacdf0141", interval: "30", timestamp: Date.now()
 	})
-}
+} */
 // this.emergencyButton("user");
 // this.createTable();
 const columnNo = db.prepare("SELECT rowid from user where userid = ?").get("285707976356921344");
