@@ -17,7 +17,13 @@ CREATE TABLE IF NOT EXISTS user (
 	mcuuid TEXT NOT NULL ,
 	interval INTEGER NOT NULL ,
 	timestamp INTEGER NOT NULL 
-)
+	)
+"""
+api = """
+CREATE TABLE IF NOT EXISTS apikeys (
+	key TEXT NOT NULL PRIMARY KEY,
+	username TEXT NOT NULL UNIQUE,
+	)
 """
 [statement.alter]
 addcolumn = "ALTER TABLE {table name} ADD COLUMN {name} {type}"
