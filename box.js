@@ -7,6 +7,7 @@ const version = "v1.4.4";
 const serverName = "Puzzle Bot";
 const isOn = false;
 const attemptingToRestart = true;
+const netmask = "255.255.0.0";
 const ip = {
 	address: function () {
 		/* const arrayOfIps = ["127.0.0.1", "172.0.0.1", "172.18.0.1", "192.168.1.21", "192.168.1.69"]
@@ -21,6 +22,7 @@ const myBox = new Box({	w: 50, h: 10, stringify: false, marks: {	nw: "╭",	n: "
 	▸ Online   :   ${isOn ? "Yes" : "No"}
 	▸ Status  :   ${attemptingToRestart ? "Starting bot" : "Not restarting, exit-code-0"}
 	▸ Device IP :   ${ip.address()}
+	▸ Netmask :   ${netmask}
 	` 
 	);
 console.log(myBox.stringify() + "\n");
