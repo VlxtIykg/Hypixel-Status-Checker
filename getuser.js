@@ -5,4 +5,3 @@ module.exports = async function(interaction) {
 	const messageID = interaction.message.id;
 	return await bot.getMessage(channelID, messageID);
 }
-
