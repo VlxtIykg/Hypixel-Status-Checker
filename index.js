@@ -32,6 +32,8 @@ bot.on("ready", async () => {
 		console.log(response);
 	}); */
 	const commands = await bot.getCommands();
+	// TODO: Add verify command
+	// TODO: Require verify for loop
 	if (!commands.length) {
 		require("./commands/.js");
 	}
@@ -319,6 +321,9 @@ bot.on("interactionCreate", async (interaction) => {
 				console.log(DbStmt.userDataRes(interaction.member.id, uuid));
 				const time = interaction.data.options[1];
 				const intervals = await richContentCreation.sortTime(time);
+				if(DbStmt.userDataRes(interaction.member.id, uuid) === "") {
+					console.log("Not in database");
+				}
 				// TODO: Check if user is in db, if not add user data
 				/* DbStmt.inputUserData({
 					"userid": userID, 
