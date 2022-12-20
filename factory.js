@@ -455,8 +455,8 @@ module.exports.sortHours = async (unit) => {
       }
   }
 }
-this.sortTime({
+console.log(this.sortTime({
   "value": "30m",
   "type": 3,
   "name": "time"
-});
+})); 
