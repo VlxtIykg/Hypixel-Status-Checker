@@ -48,6 +48,7 @@ bot.on("interactionCreate", async (interaction) => {
     switch (interaction.data.name) {
       case "check": {
         interaction.acknowledge();
+				// TODO: Retrieve api key from database
         const API_KEY = "24e2a71e-cc48-4650-8583-dde375464b91";
         const API_KEY2 = "cf311a3b-6f99-4745-aa59-8e5a379c041a";
         const username = interaction.data.options?.[0].value;
