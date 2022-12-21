@@ -1,15 +1,20 @@
 const databaseClass = require("better-sqlite3");
-const { time } = require("console");
 const fs = require("fs");
 const query = require("./queriesRes.js");
-console.log(__dirname);
+require("dotenv").config();
 const db = new databaseClass(`${__dirname}/user.db`, /* { verbose: console.log } */);
+module.exports.db = db;
+const standardlog = require("./log.js");
 const kami = {
-  id: "285707976356921344",
-  username: "uwukami",
-  uuid: "505cef88-177d-40d4-aa95-e430d1f4ef0b",
+	discord: {
+		id: "285707976356921344",
+		user: "Kami#7715",
+	},
+	minecraft: {
+		username: "uwukami",
+		uuid: "505cef88-177d-40d4-aa95-e430d1f4ef0b",
+	},
 };
-
 /**
  * @function createTable
  */
@@ -20,7 +25,9 @@ module.exports.createTable = async () => {
 	 * @deprecated - created tables
 	 * 
 	 */
-	for (const tableIndex in query.statement?.[0].tables) db.prepare(query.statement[0].tables[tableIndex]).run();
+	for (const currentTable in query.statement?.[0].tables) {
+		db.prepare(query.statement[0].tables[currentTable]).run();
+	};
 };
 
 module.exports.emergencyButton = (dbNAME) => {
@@ -60,7 +67,7 @@ module.exports.altertable = (data) => {
  * @param {BigInteger} timestamp	- time.now()
  * 
  */
-module.exports.inputUserData = function(data) {
+module.exports.userDataSubmit = function(data) {
 	/**
 	 * @description inputs into db
 	 * @function prepare
@@ -72,7 +79,9 @@ module.exports.inputUserData = function(data) {
 	 */
 	db.prepare(query.statement[0].parameters[0].userinput).run(data.userid, data.user, data.mcname, data.mcuuid, data.interval, data.timestamp);
 }
-
+module.exports.apikeysSubmit = function(data) {
+	db.prepare(query.statement[0].parameters[0]?.apiInput).run(data.key, data.belonged, data.donated);
+}
 /**
  * Select stmt
  * 
@@ -80,22 +89,25 @@ module.exports.inputUserData = function(data) {
 module.exports.allUserDataRes = function() {
 	return db.prepare(query.statement[0].userselectALL).all();
 }
+module.exports.allApikeysRes = function() {
+	return db.prepare(query.statement[0].apikeysALLRes).all();
+}
 module.exports.usernameRes = function() {
 	return db.prepare(query.statement[0].userselectSpecifiedMcUsername).all();
 }
 module.exports.userDataRes = function(id, mcuuid) {
 	return db.prepare(query.statement[0].parameters[0].userselectinfo).get(id, mcuuid)
 }
-const user = this.userDataRes("970628691442941962", "7dc15a84-0d42-44eb-ba38-766eacdf0141")
-console.log(user);
-if(user === undefined || typeof user === null) {
-	console.log(
-		"RAWR"
-	);
-	this.inputUserData({
-		userid: "970628691442941962", user: "regnarr_#8717", mcname: "jesus", mcuuid: "7dc15a84-0d42-44eb-ba38-766eacdf0141", interval: "30", timestamp: Date.now()
-	})
+module.exports.schema = function() {
+	return db.prepare(query.statement[0].schema.alltableres).all();
 }
-// this.emergencyButton("user");
-// this.createTable();
-const columnNo = db.prepare("SELECT rowid from user where userid = ?").get("285707976356921344");
+console.log(this);
+this.createTable();
+
+/**
+ * Standard logs statement
+ * @description Typically things to log for information
+ */
+standardlog.schema(); //Grabs every table
+// standardlog.apikey(); //Grabs every api key
+// standardlog.allUserDataRes(); // Grabs every user
