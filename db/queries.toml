@@ -1,9 +1,11 @@
 [[statement]]
 userselectALL = "SELECT * FROM user"
+apikeysALLRes = "SELECT * FROM apikeys"
 userselectSpecifiedMcUsername = "SELECT mcname FROM user"
 
 [[statement.parameters]]
 userinput = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?)"
+apiInput = "INSERT INTO apikeys VALUES(?, ?, ?)"
 userselect = "SELECT * FROM user where userid = ?"
 userselectinfo = "SELECT * FROM user where userid = ? and mcuuid = ?"
 
@@ -19,13 +21,23 @@ CREATE TABLE IF NOT EXISTS user (
 	timestamp INTEGER NOT NULL 
 	)
 """
+# TODO: Potentially add usernames to restrict amount of fetches
 api = """
 CREATE TABLE IF NOT EXISTS apikeys (
-	key TEXT NOT NULL PRIMARY KEY,
-	username TEXT NOT NULL UNIQUE,
+	key TEXT PRIMARY KEY,
+	belongs_to TEXT NOT NULL UNIQUE,
+	donated_by TEXT
 	)
 """
 [statement.alter]
 addcolumn = "ALTER TABLE {table name} ADD COLUMN {name} {type}"
 #Add javascript function to replace ?1 and ?2 without values()
 addincrementcolumn = "ALTER TABLE ?1 ADD COLUMN ?2 INTEGER AUTOINCREMENT "
+
+[statement.schema]
+alltableres = """
+SELECT 
+    *
+FROM 
+    sqlite_schema
+"""
