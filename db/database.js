@@ -4,7 +4,6 @@ const query = require("./queriesRes.js");
 require("dotenv").config();
 const db = new databaseClass(`${__dirname}/user.db`, /* { verbose: console.log } */);
 module.exports.db = db;
-const standardlog = require("./log.js");
 const kami = {
 	discord: {
 		id: "285707976356921344",
@@ -103,11 +102,3 @@ module.exports.schema = function() {
 }
 console.log(this);
 this.createTable();
-
-/**
- * Standard logs statement
- * @description Typically things to log for information
- */
-standardlog.schema(); //Grabs every table
-// standardlog.apikey(); //Grabs every api key
-// standardlog.allUserDataRes(); // Grabs every user
