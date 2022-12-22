@@ -9,11 +9,12 @@ module.exports.apikey = () => {
 module.exports.allUserDataRes = function() {
 	console.log(db.prepare(query.statement[0].userselectALL).all());
 }
+module.exports.issue = () => console.log(`${userID} had come across an issue.`);
 
 /**
  * Standard logs statement
  * @description Typically things to log for information
  */
-// standardlog.schema(); //Grabs every table
-// standardlog.apikey(); //Grabs every api key
-// standardlog.allUserDataRes(); // Grabs every user
+// this.schema(); //Grabs every table
+this.apikey(); //Grabs every api key
+// this.allUserDataRes(); // Grabs every user
