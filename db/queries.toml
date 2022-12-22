@@ -1,6 +1,7 @@
 [[statement]]
 userselectALL = "SELECT * FROM user"
-apikeysALLRes = "SELECT * FROM apikeys"
+apikeysInfoRes = "SELECT * FROM apikeys"
+apikeysRes = "SELECT key FROM apikeys"
 userselectSpecifiedMcUsername = "SELECT mcname FROM user"
 
 
@@ -32,8 +33,11 @@ CREATE TABLE IF NOT EXISTS apikeys (
 """
 [statement.alter]
 addcolumn = "ALTER TABLE {table name} ADD COLUMN {name} {type}"
-#Add javascript function to replace ?1 and ?2 without values()
+# Add javascript function to replace ?1 and ?2 without values()
 addincrementcolumn = "ALTER TABLE ?1 ADD COLUMN ?2 INTEGER AUTOINCREMENT "
+
+[statement.update]
+updateUserTableUserCol = "UPDATE user SET mcuuid = ? WHERE mcname = ?"
 
 [statement.schema]
 alltableres = """
