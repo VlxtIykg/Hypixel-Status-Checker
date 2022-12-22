@@ -1,6 +1,7 @@
 const databaseClass = require("better-sqlite3");
 const fs = require("fs");
 const query = require("./queriesRes.js");
+const statement = query.statement[0];
 require("dotenv").config();
 const db = new databaseClass(`${__dirname}/user.db`, /* { verbose: console.log } */);
 module.exports.db = db;
@@ -25,7 +26,7 @@ module.exports.createTable = async () => {
 		 * @deprecated - created tables
 		 * 
 		 */
-		db.prepare(query.statement[0].tables[currentTable]).run();
+		db.prepare(statement.tables[currentTable]).run();
 	};
 };
 
@@ -98,7 +99,7 @@ module.exports.userDataSubmit = function(data) {
 	 * @param {string} query.userstmt.userinput		- adds input into db
 	 * 
 	 */
-	db.prepare(query.statement[0].parameters[0].userinput).run(data.userid, data.user, data.mcname, data.mcuuid, data.interval, data.timestamp);
+	db.prepare(statement.parameters[0].userinput).run(data.userid, data.user, data.mcname, data.mcuuid, data.interval, data.timestamp);
 }
 	/**
 	 * @access public
@@ -110,25 +111,38 @@ module.exports.userDataSubmit = function(data) {
 	 * @param {snowflake} data.donated		- Who gave api key (ID form)
 	 */
 module.exports.apikeysSubmit = function(data) {
-	db.prepare(query.statement[0].parameters[0]?.apiInput).run(data.key, data.belonged, data.donated);
+	db.prepare(statement.parameters[0]?.apiInput).run(data.key, data.belonged, data.donated);
 }
+module.exports.updateUserTableUserCol = data => {
+	console.log(data);
+	db.prepare(statement.update.updateUserTableUserCol).run(data.newUUID, data.name);
+}
+/* this.updateUserTableUserCol({
+	newUUID: "04c5d7d1-cdaa-49c1-813f-d7b24cecc317",
+	name: "jesus"
+}); */
+
+
 /**
  * Select stmt
  * 
  */
 module.exports.allUserDataRes = function() {
-	return db.prepare(query.statement[0].userselectALL).all();
+	return db.prepare(statement.userselectALL).all();
 }
 module.exports.allApikeysRes = function() {
-	return db.prepare(query.statement[0].apikeysALLRes).all();
+	return db.prepare(statement.apikeysInfoRes).all();
+}
+module.exports.apikeysRes = function() {
+	return db.prepare(statement.apikeysRes).all().map(x => {return Object.values(x).join("")});
 }
 module.exports.usernameRes = function() {
-	return db.prepare(query.statement[0].userselectSpecifiedMcUsername).all();
+	return db.prepare(statement.userselectSpecifiedMcUsername).all();
 }
 module.exports.userDataRes = function(id, mcuuid) {
-	return db.prepare(query.statement[0].parameters[0].userselectinfo).get(id, mcuuid)
+	return db.prepare(statement.parameters[0].userselectinfo).get(id, mcuuid)
 }
 module.exports.schema = function() {
-	return db.prepare(query.statement[0].schema.alltableres).all();
+	return db.prepare(statement.schema.alltableres).all();
 }
 this.createTable();
