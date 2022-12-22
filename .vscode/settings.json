@@ -1,5 +1,8 @@
 {
 	"conventionalCommits.scopes": [
-		"Examples"
+		"Examples",
+		"Dependecies",
+		"Database",
+		"Tests"
 	]
 }
