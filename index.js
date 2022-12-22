@@ -6,12 +6,8 @@ const {
   validate: uuidValidate,
 } = require("uuid");
 const DbStmt = require("./db/database.js");
+const DbLog = require("./db/log.js")
 const fs = require("fs");
-const kami = {
-  id: "285707976356921344",
-  username: "uwukami",
-  uuid: "505cef88-177d-40d4-aa95-e430d1f4ef0b",
-};
 const richContentCreation = require("./factory.js");
 const Constants = Eris.Constants;
 require("dotenv").config();
@@ -22,21 +18,23 @@ const bot = new Eris(process.env.token, {
 });
 module.exports = bot;
 module.exports.kami = {
-  id: "285707976356921344",
-  username: "uwukami",
-  uuid: "505cef88-177d-40d4-aa95-e430d1f4ef0b",
+	discord: {
+		id: "285707976356921344",
+		user: "Kami#7715",
+	},
+	minecraft: {
+		username: "uwukami",
+		uuid: "505cef88-177d-40d4-aa95-e430d1f4ef0b",
+	},
 };
 
 bot.on("ready", async () => {
-  /* bot.getCommands().then(response => {
-		console.log(response);
-	}); */
   const commands = await bot.getCommands();
   if (!commands.length) {
     require("./commands/.js");
   }
 
-  require("./box.js").createBox();
+  // require("./box.js").createBox(); aesthetic purposes
 });
 
 bot.on("interactionCreate", async (interaction) => {
@@ -188,7 +186,6 @@ bot.on("interactionCreate", async (interaction) => {
           const uuid = uuidv4();
           const hash = interaction?.user?.avatar;
           if (uuidValidateV4(uuid)) {
-            console.log(`${userID} had come across an issue.`);
 
             interaction.createMessage(
               `Issue sending api request, please send the developer code: ${uuid}.`
@@ -213,7 +210,7 @@ bot.on("interactionCreate", async (interaction) => {
               credentials: { id: userID, userTag },
               secret_credentials: { API_KEY, uuid: userInfo.uuid },
             });
-            bot.getDMChannel(kami.id).then((data) => {
+            bot.getDMChannel(this.kami.id).then((data) => {
               bot.createMessage(data.id, { embed });
             });
 
@@ -298,7 +295,7 @@ bot.on("interactionCreate", async (interaction) => {
 
       case "loop": {
         
-        console.log(DbStmt.userDataRes());
+        console.log(DbStmt.allUserDataRes());
 				const mcname = interaction.data.options[0].value;
 				const id = async () => {
 					const idRes = await fetch(
@@ -539,4 +536,10 @@ try {
   console.error(error); //if it fails, itll error
 }
 
-process.on("exit", () => DbStmt.close());
+process.on('SIGINT', function() {
+	console.log("Closing bot");
+	DbStmt.close();
+	setTimeout(function() {
+		process.exit(0);
+	}, 500)
+})
