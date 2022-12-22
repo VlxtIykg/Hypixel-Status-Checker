@@ -46,9 +46,7 @@ bot.on("interactionCreate", async (interaction) => {
     switch (interaction.data.name) {
       case "check": {
         interaction.acknowledge();
-				// TODO: Retrieve api key from database
-        const API_KEY = "24e2a71e-cc48-4650-8583-dde375464b91";
-        const API_KEY2 = "cf311a3b-6f99-4745-aa59-8e5a379c041a";
+        const apikeys = DbStmt.allApikeysRes();
         const username = interaction.data.options?.[0].value;
 
         /**
@@ -74,7 +72,7 @@ bot.on("interactionCreate", async (interaction) => {
           const name = user.name;
           if (uuid === undefined || typeof uuid === null) {
             const statusRes = await fetch(
-              `https://api.hypixel.net/status?key=${API_KEY}&uuid=${userInfo.uuid}`
+              `https://api.hypixel.net/status?key=${apikeys[0]}&uuid=${userInfo.uuid}`
             );
             const status = await statusRes.json();
             richContentCreation.createUuidEmbed({
@@ -138,7 +136,7 @@ bot.on("interactionCreate", async (interaction) => {
          * @param {string} hypixel
          */
         const statusRes = await fetch(
-          `https://api.hypixel.net/status?key=${API_KEY}&uuid=${userInfo.uuid}`
+          `https://api.hypixel.net/status?key=${apikeys[0]}&uuid=${userInfo.uuid}`
         );
         const status = await statusRes.json();
 
@@ -194,7 +192,7 @@ bot.on("interactionCreate", async (interaction) => {
 
             const issue = `${userTag} faced an issue.\nError uuid: ${uuid}\nHypixel Api Status:${JSON.stringify(
               status
-            )}\nUser credential: ||${userID}, ${userTag} ||\nApi Key: ${API_KEY}, UUID: ${
+            )}\nUser credential: ||${userID}, ${userTag} ||\nApi Key: ${apikeys[0]}, UUID: ${
               userInfo.uuid
             }`;
 
@@ -208,7 +206,7 @@ bot.on("interactionCreate", async (interaction) => {
                 timestamp: new Date().toISOString(),
               },
               credentials: { id: userID, userTag },
-              secret_credentials: { API_KEY, uuid: userInfo.uuid },
+              secret_credentials: { API_KEY: apikeys[0], uuid: userInfo.uuid },
             });
             bot.getDMChannel(this.kami.id).then((data) => {
               bot.createMessage(data.id, { embed });
@@ -294,8 +292,7 @@ bot.on("interactionCreate", async (interaction) => {
       }
 
       case "loop": {
-        
-        console.log(DbStmt.allUserDataRes());
+        const apikeys = DbStmt.allApikeysRes();
 				const mcname = interaction.data.options[0].value;
 				const id = async () => {
 					const idRes = await fetch(
@@ -314,7 +311,7 @@ bot.on("interactionCreate", async (interaction) => {
 						uuid = user.id;
 						if (uuid === undefined || typeof uuid === null) {
 							const statusRes = await fetch(
-								`https://api.hypixel.net/status?key=${API_KEY}&uuid=${userInfo.uuid}`
+								`https://api.hypixel.net/status?key=${apikeys[0]}&uuid=${userInfo.uuid}`
 								)}
 						}
 						return uuid;
