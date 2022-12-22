@@ -1,12 +1,12 @@
 /* Respond to multiple fetch statements */
 // Async
-acct2.forEach(async (item) => {
+allResponses.forEach(async (item) => {
   const response = await item.json();
   acct1.push(response);
 });
 
 // Sync
-acct2.forEach((item) => {
+allResponses.forEach((item) => {
   item
     .json()
     .then((data) => {
@@ -30,7 +30,7 @@ async () => {
     return acct1;
   };
 
-  const json = await jsonRes(acct2);
+  const json = await jsonRes(allResponses);
   return json;
 };
 
