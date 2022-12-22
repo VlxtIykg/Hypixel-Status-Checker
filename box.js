@@ -9,8 +9,6 @@ const isOn = false;
 const attemptingToRestart = true;
 const ip = {
 	address: function () {
-		/* const arrayOfIps = ["127.0.0.1", "172.0.0.1", "172.18.0.1", "192.168.1.21", "192.168.1.69"]
-		return arrayOfIps[Math.floor(Math.random()*arrayOfIps.length)]; */
 		const arrayOfIps = [`127.0.0.${Math.floor(Math.random()*255)}`, `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`, `172.0.0.${Math.floor(Math.random()*255)}`]
 		return arrayOfIps[Math.floor(Math.random()*arrayOfIps.length)];
 	},

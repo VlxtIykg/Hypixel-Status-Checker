@@ -3,6 +3,7 @@ userselectALL = "SELECT * FROM user"
 apikeysALLRes = "SELECT * FROM apikeys"
 userselectSpecifiedMcUsername = "SELECT mcname FROM user"
 
+
 [[statement.parameters]]
 userinput = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?)"
 apiInput = "INSERT INTO apikeys VALUES(?, ?, ?)"

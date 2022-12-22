@@ -19,27 +19,45 @@ const kami = {
  */
 module.exports.createTable = async () => {
 	db.pragma("journal_mode = WAL");
-	/** 
-	 * @access private 
-	 * @deprecated - created tables
-	 * 
-	 */
 	for (const currentTable in query.statement?.[0].tables) {
+		/** 
+		 * @access private 
+		 * @deprecated - created tables
+		 * 
+		 */
 		db.prepare(query.statement[0].tables[currentTable]).run();
 	};
 };
 
 module.exports.emergencyButton = (dbNAME) => {
+	/** 
+	 * @name exec
+	 * @access private 
+	 * @description deletes table
+	 * 
+	 */
 	db.exec(`DROP TABLE ${dbNAME}`);
+	/** 
+	 * @name createTable
+	 * @access private 
+	 * @description creates tables
+	 * 
+	 */
 	this.createTable();
 };
 
 module.exports.close = () => {
+ /**
+	* @func close
+	* @access private
+	* @description closes database	
+  */
 	db.close();
 };
 /**
- * @function altertable
+ * @access public
  * @description - Alters the table with self made bind parameters
+ * @function altertable
  * @param {Object} data - The object that holds all the data
  * @param {string} data.tablename - The name of the table you want to inject.
  * @param {string} data.alteration - The method you want to inject, i.e. add.
@@ -48,10 +66,14 @@ module.exports.close = () => {
  */
 module.exports.altertable = (data) => {
 	/**
-	 * @param data.tablename
-	 * @param data.alteration
-	 * @param data.columnname
-	 * @param data.columntype
+	 * @author VlxtIykg
+	 * @function prepare
+	 * @function run
+	 * @access public
+ 	 * @param {string} data.tablename - The name of the table you want to inject.
+ 	 * @param {string} data.alteration - The method you want to inject, i.e. add.
+ 	 * @param {string} data.columnname - The column name you are adding
+ 	 * @param {string} data.columntype - The column type you are adding
 	 */
 	db.prepare(`ALTER TABLE ${data.tablename} ${data.alteration} COLUMN ${data.columnname} ${data.columntype} AUTOINCREMENT`).run();
 }
@@ -78,6 +100,15 @@ module.exports.userDataSubmit = function(data) {
 	 */
 	db.prepare(query.statement[0].parameters[0].userinput).run(data.userid, data.user, data.mcname, data.mcuuid, data.interval, data.timestamp);
 }
+	/**
+	 * @access public
+	 * @description inputs into db
+	 * @function apikeysSubmit
+	 * @param {Object} data						- Data object received
+	 * @param {string} data.key 			- Api key received
+	 * @param {string} data.belonged	- Whose api key
+	 * @param {snowflake} data.donated		- Who gave api key (ID form)
+	 */
 module.exports.apikeysSubmit = function(data) {
 	db.prepare(query.statement[0].parameters[0]?.apiInput).run(data.key, data.belonged, data.donated);
 }
@@ -100,5 +131,4 @@ module.exports.userDataRes = function(id, mcuuid) {
 module.exports.schema = function() {
 	return db.prepare(query.statement[0].schema.alltableres).all();
 }
-console.log(this);
 this.createTable();
