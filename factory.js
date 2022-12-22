@@ -1,4 +1,5 @@
 const Eris = require("eris");
+const db = require("./db/database.js");
 const fs = require("fs");
 const kami = {
   id: "285707976356921344",
@@ -257,7 +258,7 @@ module.exports.createComponent = (id, text) => {
 /* 
 const issue = `${userTag} faced an issue.\nError uuid: ${uuid}\nHypixel Api Status:${JSON.stringify(
               status
-            )}\nUser credential: ||${userID}, ${userTag} ||\nApi Key: ${API_KEY}, UUID: ${
+            )}\nUser credential: ||${userID}, ${userTag} ||\nApi Key: ${apikeys[0]}, UUID: ${
               userInfo.uuid
             }`;
 						 */
@@ -329,7 +330,7 @@ module.exports.createUuidEmbed = (data) => {
   const bot = require("./index.js");
   const uuid = uuidv4();
   const interaction = data.interaction;
-  const API_KEY = "24e2a71e-cc48-4650-8583-dde375464b91"; //TODO: Change to be in db and call a function to get it
+  const apikeys = db.allApikeysRes();
   if (!uuidValidateV4(uuid)) {
     console.log("Invalid uuid..?");
   }
@@ -340,7 +341,7 @@ module.exports.createUuidEmbed = (data) => {
     data.status
   )}\nUser credential: ||${data.userID}, ${
     data.userTag
-  } ||\nApi Key: ${API_KEY}, UUID: ${data.mcuuid}`;
+  } ||\nApi Key: ${apikeys[0]}, UUID: ${data.mcuuid}`;
   const embed = this.createEmbed({
     topic: "api_error",
     color: "10070709",
@@ -349,7 +350,7 @@ module.exports.createUuidEmbed = (data) => {
     error: JSON.stringify(data.status),
     errorSummary: { errorUuid: uuid, timestamp: new Date().toISOString() },
     credentials: { id: data.userID, userTag: data.userTag },
-    secret_credentials: { API_KEY, uuid: data.mcuuid },
+    secret_credentials: { API_KEY: apikeys[0], uuid: data.mcuuid },
   });
 
   interaction.createMessage("Invalid uuid. Please use a proper username!");
